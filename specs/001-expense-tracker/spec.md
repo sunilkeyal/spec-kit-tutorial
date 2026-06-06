@@ -8,6 +8,16 @@
 
 **Input**: User description: "Basic expense tracking app (add, view, delete expenses). Track personal expenses with amount, date, category, and description. Simple dashboard showing recent expenses and basic totals. Do not implement user auth."
 
+## Clarifications
+
+### Session 2026-06-05
+
+- Q: Should editing existing expenses be in scope? → A: Yes, include Edit/Update for amount, date, category, and description.
+- Q: How are expenses uniquely identified for operations like delete and edit? → A: Auto-generated unique ID.
+- Q: How should the system handle localStorage capacity limits? → A: Show a user-friendly error message and prevent new entries when storage is full.
+- Q: Should loading/saving states be shown during CRUD operations? → A: No loading states needed — local storage operations are instant.
+- Q: How should the dashboard category breakdown be displayed? → A: Simple text list with category name, total amount, and percentage.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Add a New Expense (Priority: P1)
@@ -41,7 +51,23 @@ The user views a list of all recorded expenses sorted by date (most recent first
 
 ---
 
-### User Story 2 - Delete an Expense (Priority: P2)
+### User Story 3 - Edit an Expense (Priority: P1)
+
+The user modifies an existing expense to correct or update any of its fields (amount, date, category, description). After saving, the changes are reflected immediately in both the expense list and the dashboard totals.
+
+**Why this priority**: Without editing, users must delete and re-add to fix mistakes, which is poor UX. Edit completes the CRUD lifecycle and is essential for daily use.
+
+**Independent Test**: Can be fully tested by adding an expense, then changing each field and verifying the updated values appear in the expense list and dashboard.
+
+**Acceptance Scenarios**:
+
+1. **Given** an expense exists in the list, **When** the user triggers edit, modifies one or more fields, and saves, **Then** the expense is updated and changes appear in the expense list and dashboard totals
+2. **Given** the user is editing an expense, **When** they clear the amount or date and attempt to save, **Then** the system rejects the entry and highlights the missing field
+3. **Given** the user is editing an expense, **When** they cancel the edit without saving, **Then** the expense remains unchanged
+
+---
+
+### User Story 4 - Delete an Expense (Priority: P2)
 
 The user removes an expense they no longer want to track. After deletion, the expense is permanently removed from the list and the dashboard totals are updated accordingly.
 
@@ -56,9 +82,9 @@ The user removes an expense they no longer want to track. After deletion, the ex
 
 ---
 
-### User Story 3 - View Dashboard with Totals (Priority: P2)
+### User Story 5 - View Dashboard with Totals (Priority: P2)
 
-The user sees a simple dashboard showing recent expenses and basic summary statistics: total number of expenses, total amount spent, and optionally a breakdown by category.
+The user sees a simple dashboard showing recent expenses and basic summary statistics: total number of expenses, total amount spent, and a breakdown by category (text list with category name, total amount, and percentage).
 
 **Why this priority**: The dashboard provides value-added insight, but the app is still useful for basic recording and viewing without it.
 
@@ -67,7 +93,7 @@ The user sees a simple dashboard showing recent expenses and basic summary stati
 **Acceptance Scenarios**:
 
 1. **Given** the user has added multiple expenses, **When** they view the dashboard, **Then** they see the total number of expenses and the total amount spent
-2. **Given** the user has expenses in multiple categories, **When** they view the dashboard, **Then** they see a summary or breakdown by category
+2. **Given** the user has expenses in multiple categories, **When** they view the dashboard, **Then** they see a breakdown by category (text list with category name, total amount, and percentage)
 3. **Given** the user opens the app, **When** the dashboard loads, **Then** the 5-10 most recent expenses are displayed
 
 ---
@@ -76,7 +102,7 @@ The user sees a simple dashboard showing recent expenses and basic summary stati
 
 - What happens when the user tries to add an expense with an amount exceeding a reasonable maximum (e.g., 999,999,999)? The system should validate and reject values outside a reasonable range.
 - How does the system handle empty categories or descriptions? Category should be required; description should be optional with a reasonable character limit.
-- What happens when the user's data store is full or corrupted? The system should show a user-friendly error message and prevent data loss where possible.
+- What happens when the user's data store is full (localStorage capacity reached)? The system MUST prevent new entries and display a clear error message explaining that storage is full. For corruption, the system should show a user-friendly error message and prevent data loss where possible.
 - How does the system handle the date field if the user selects a future date? Reasonable default: allow any valid date including future dates (user may want to log a planned expense or a receipt from a future-dated transaction).
 
 ## Requirements *(mandatory)*
@@ -93,10 +119,11 @@ The user sees a simple dashboard showing recent expenses and basic summary stati
 - **FR-008**: The dashboard MUST show a list of the most recent expenses (minimum 5)
 - **FR-009**: All expense data MUST persist across browser sessions (data is saved locally)
 - **FR-010**: The system MUST show an empty-state message when no expenses exist
+- **FR-011**: Users MUST be able to edit the amount, date, category, and description of an existing expense, with the same validation rules as adding
 
 ### Key Entities *(include if feature involves data)*
 
-- **Expense**: Represents a single financial transaction. Key attributes: amount (positive number), date (calendar date), category (from predefined list), description (optional free text).
+- **Expense**: Represents a single financial transaction. Key attributes: id (auto-generated unique identifier), amount (positive number), date (calendar date), category (from predefined list), description (optional free text).
 - **Expense Summary**: A computed aggregate derived from all expenses. Attributes: total count, total sum, optional category breakdown.
 
 ## Success Criteria *(mandatory)*
