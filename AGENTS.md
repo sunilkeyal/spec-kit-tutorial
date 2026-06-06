@@ -37,5 +37,6 @@ Uses `@import "tailwindcss"` in CSS (not `@tailwind` directives). Theme values v
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read the implementation plan:
+`specs/001-expense-tracker/plan.md`
 <!-- SPECKIT END -->
