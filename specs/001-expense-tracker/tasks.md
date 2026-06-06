@@ -34,8 +34,8 @@ description: "Task list for Basic Expense Tracker implementation"
 
 **Purpose**: Create directory structure and configure the project shell
 
-- [ ] T001 Create directory structure: `app/_components/`, `app/api/expenses/[id]/`, `lib/`, `src/server/`
-- [ ] T002 [P] Update `app/layout.tsx` metadata title to "Expense Tracker" and update root layout styling for the app
+- [X] T001 Create directory structure: `app/_components/`, `app/api/expenses/[id]/`, `lib/`, `src/server/`
+- [X] T002 [P] Update `app/layout.tsx` metadata title to "Expense Tracker" and update root layout styling for the app
 
 ---
 
@@ -45,10 +45,10 @@ description: "Task list for Basic Expense Tracker implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Create `src/server/types.ts` with shared TypeScript interfaces (Expense, Category, ExpenseFormData, ValidationResult, ExpenseSummary)
-- [ ] T004 [P] Create `src/server/constants.ts` with predefined category list (Food, Transportation, Entertainment, Utilities, Shopping, Other) and validation limits (max amount, max description length)
-- [ ] T005 [P] Create `src/server/validation.ts` with server-side field validation functions for amount (>0, ≤999,999,999.99, max 2 decimals), date (valid parseable date), category (must be from predefined set), description (optional, max 200 chars, trimmed)
-- [ ] T006 Create `lib/storage.ts` with localStorage CRUD abstraction implementing create/getAll/getById/update/delete/getSummary with error handling for QuotaExceededError and JSON parse failures
+- [X] T003 [P] Create `src/server/types.ts` with shared TypeScript interfaces (Expense, Category, ExpenseFormData, ValidationResult, ExpenseSummary)
+- [X] T004 [P] Create `src/server/constants.ts` with predefined category list (Food, Transportation, Entertainment, Utilities, Shopping, Other) and validation limits (max amount, max description length)
+- [X] T005 [P] Create `src/server/validation.ts` with server-side field validation functions for amount (>0, ≤999,999,999.99, max 2 decimals), date (valid parseable date), category (must be from predefined set), description (optional, max 200 chars, trimmed)
+- [X] T006 Create `lib/storage.ts` with localStorage CRUD abstraction implementing create/getAll/getById/update/delete/getSummary with error handling for QuotaExceededError and JSON parse failures
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
 
@@ -62,9 +62,9 @@ description: "Task list for Basic Expense Tracker implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T007 [P] [US1] Create `app/_components/expense-form.tsx` Client Component with form fields (amount input, date picker defaulting to today, category dropdown from constants, optional description textarea) and submit handler
-- [ ] T008 [US1] Create `lib/actions.ts` with `"use server"` addExpense action that validates form data using `src/server/validation.ts` and returns ValidationResult
-- [ ] T009 [US1] Integrate add expense flow on `app/page.tsx` — render expense-form component, call server action on submit, write to localStorage via lib/storage.ts on success, display inline validation errors
+- [X] T007 [P] [US1] Create `app/_components/expense-form.tsx` Client Component with form fields (amount input, date picker defaulting to today, category dropdown from constants, optional description textarea) and submit handler
+- [X] T008 [US1] Create `lib/actions.ts` with `"use server"` addExpense action that validates form data using `src/server/validation.ts` and returns ValidationResult
+- [X] T009 [US1] Integrate add expense flow on `app/page.tsx` — render expense-form component, call server action on submit, write to localStorage via lib/storage.ts on success, display inline validation errors
 
 **Checkpoint**: User can add an expense and see it in the list. MVP achieved! 🎉
 
@@ -78,9 +78,9 @@ description: "Task list for Basic Expense Tracker implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T010 [P] [US2] Create `app/_components/expense-item.tsx` Client Component rendering a single expense row (amount formatted as currency, date, category badge, description)
-- [ ] T011 [US2] Create `app/_components/expense-list.tsx` Client Component that reads expenses from localStorage via lib/storage.ts, sorts by date desc, renders expense-item for each, and shows empty-state message when no expenses exist
-- [ ] T012 [US2] Wire up expense list on `app/page.tsx` — render expense-list component below the add form, refresh list after add
+- [X] T010 [P] [US2] Create `app/_components/expense-item.tsx` Client Component rendering a single expense row (amount formatted as currency, date, category badge, description)
+- [X] T011 [US2] Create `app/_components/expense-list.tsx` Client Component that reads expenses from localStorage via lib/storage.ts, sorts by date desc, renders expense-item for each, and shows empty-state message when no expenses exist
+- [X] T012 [US2] Wire up expense list on `app/page.tsx` — render expense-list component below the add form, refresh list after add
 
 **Checkpoint**: User can view all expenses sorted by date. Empty state handled.
 
@@ -94,9 +94,9 @@ description: "Task list for Basic Expense Tracker implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T013 [P] [US3] Extend `lib/actions.ts` with `"use server"` updateExpense action that validates updated fields using `src/server/validation.ts` and returns ValidationResult
-- [ ] T014 [US3] Extend `app/_components/expense-form.tsx` to support edit mode — accept optional existing expense prop, pre-fill fields, switch submit to update flow
-- [ ] T015 [US3] Wire up edit flow — add edit button to `app/_components/expense-item.tsx`, trigger expense-form in edit mode, save updates to localStorage via lib/storage.ts
+- [X] T013 [P] [US3] Extend `lib/actions.ts` with `"use server"` updateExpense action that validates updated fields using `src/server/validation.ts` and returns ValidationResult
+- [X] T014 [US3] Extend `app/_components/expense-form.tsx` to support edit mode — accept optional existing expense prop, pre-fill fields, switch submit to update flow
+- [X] T015 [US3] Wire up edit flow — add edit button to `app/_components/expense-item.tsx`, trigger expense-form in edit mode, save updates to localStorage via lib/storage.ts
 
 **Checkpoint**: User can edit any existing expense. Full CRUD pattern established.
 
@@ -110,8 +110,8 @@ description: "Task list for Basic Expense Tracker implementation"
 
 ### Implementation for User Story 4
 
-- [ ] T016 [US4] Add delete button with confirmation dialog to `app/_components/expense-item.tsx` — show confirmation prompt on click, remove from localStorage on confirm, cancel leaves expense intact
-- [ ] T017 [US4] Wire up delete flow — after successful deletion, trigger list refresh and dashboard update on `app/page.tsx`
+- [X] T016 [US4] Add delete button with confirmation dialog to `app/_components/expense-item.tsx` — show confirmation prompt on click, remove from localStorage on confirm, cancel leaves expense intact
+- [X] T017 [US4] Wire up delete flow — after successful deletion, trigger list refresh and dashboard update on `app/page.tsx`
 
 **Checkpoint**: User can delete expenses with confirmation safety.
 
@@ -125,8 +125,8 @@ description: "Task list for Basic Expense Tracker implementation"
 
 ### Implementation for User Story 5
 
-- [ ] T018 [P] [US5] Create `app/_components/dashboard-summary.tsx` Client Component that reads from localStorage via lib/storage.ts and renders totalCount, totalAmount, categoryBreakdown list (category name, total amount, percentage), and 5-10 most recent expenses
-- [ ] T019 [US5] Wire up dashboard section on `app/page.tsx` — render dashboard-summary component at the top of the page, refresh after any CRUD operation
+- [X] T018 [P] [US5] Create `app/_components/dashboard-summary.tsx` Client Component that reads from localStorage via lib/storage.ts and renders totalCount, totalAmount, categoryBreakdown list (category name, total amount, percentage), and 5-10 most recent expenses
+- [X] T019 [US5] Wire up dashboard section on `app/page.tsx` — render dashboard-summary component at the top of the page, refresh after any CRUD operation
 
 **Checkpoint**: Dashboard displays accurate totals and category breakdown. All user stories complete.
 
@@ -136,12 +136,12 @@ description: "Task list for Basic Expense Tracker implementation"
 
 **Purpose**: Route handlers (REST API contract), edge case hardening, and final validation
 
-- [ ] T020 [P] Create `app/api/expenses/route.ts` with GET (return all expenses from localStorage) and POST (validate request body, call create, return created expense with 201) route handlers
-- [ ] T021 [P] Create `app/api/expenses/[id]/route.ts` with PUT (validate request body, call update, return updated expense) and DELETE (call delete, return success with 200) route handlers
-- [ ] T022 Handle localStorage QuotaExceededError gracefully — show user-friendly error message in expense-form and prevent data loss
-- [ ] T023 Handle localStorage JSON parse corruption — reset to empty array with console warning, show error toast if applicable
-- [ ] T024 Run full validation against quickstart.md scenarios — verify all 8 scenarios pass end-to-end
-- [ ] T025 Run `npm run lint` and `npm run build` — fix any linting or build errors
+- [X] T020 [P] Create `app/api/expenses/route.ts` with GET (return all expenses from localStorage) and POST (validate request body, call create, return created expense with 201) route handlers
+- [X] T021 [P] Create `app/api/expenses/[id]/route.ts` with PUT (validate request body, call update, return updated expense) and DELETE (call delete, return success with 200) route handlers
+- [X] T022 Handle localStorage QuotaExceededError gracefully — show user-friendly error message in expense-form and prevent data loss
+- [X] T023 Handle localStorage JSON parse corruption — reset to empty array with console warning, show error toast if applicable
+- [X] T024 Run full validation against quickstart.md scenarios — verify all 8 scenarios pass end-to-end
+- [X] T025 Run `npm run lint` and `npm run build` — fix any linting or build errors
 
 **Checkpoint**: All features implemented, lint and build pass, REST API contract defined.
 

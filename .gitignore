@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# universal
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
