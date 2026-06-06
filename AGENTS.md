@@ -37,6 +37,6 @@ Uses `@import "tailwindcss"` in CSS (not `@tailwind` directives). Theme values v
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the specification:
-`specs/feature-002-layout-update/spec.md`
+shell commands, and other important information, read the implementation plan:
+`specs/feature-002-layout-update/plan.md`
 <!-- SPECKIT END -->
