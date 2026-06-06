@@ -1,17 +1,11 @@
 <!--
   Sync Impact Report
 
-  Version change: (none) → 1.0.0
-  Modified principles: (none - initial creation)
-  Added sections:
-    - I. Next.js App Router
-    - II. Clean & Modular Architecture
-    - III. TypeScript Strictness
-    - IV. Async Request APIs
-    - V. Modern CSS with Tailwind v4
-    - Technology Stack & Constraints
-    - Development Workflow
-    - Governance
+  Version change: 1.0.0 → 1.0.1
+  Modified principles:
+    - I. Next.js App Router (expanded: data fetching, route groups, metadata, caching)
+    - II. Clean & Modular Architecture (expanded: naming conventions, server/client separation)
+  Added sections: (none)
   Removed sections: (none)
   Templates requiring updates:
     - .specify/templates/plan-template.md ✅ (no changes needed)
@@ -33,9 +27,18 @@ only when interactivity, browser APIs, or lifecycle effects are required.
 Route handlers, layouts, and loading/error boundaries MUST follow the App Router
 convention.
 
+All data fetching MUST use async Server Components or Route Handlers — no
+`useEffect` for data loading. Route Groups SHOULD be used to organize routes
+without affecting URL paths. Metadata MUST be exported from layout or page
+files using the standard metadata API. Caching directives (`revalidateTag`,
+`revalidatePath`) MUST explicitly declare a `cacheLife` profile where required
+by the framework.
+
 **Rationale**: App Router is the canonical routing paradigm in Next.js 16 and
 provides streaming, server-centric rendering, and nested layouts. Using it
-exclusively avoids confusion and ensures forward compatibility.
+exclusively avoids confusion and ensures forward compatibility. Strict data
+fetching and caching conventions prevent subtle bugs and maximize runtime
+performance.
 
 ### II. Clean & Modular Architecture
 
@@ -45,8 +48,16 @@ with their nearest logical parent (e.g., route-specific components next to their
 page). Cross-cutting logic MUST be extracted into shared modules under `lib/` or
 `utils/`.
 
+File and folder names MUST follow consistent conventions: `kebab-case` for
+files, `PascalCase` for components, `camelCase` for utilities and hooks. Server
+Components and Client Components MUST be clearly separated — co-locate related
+Client Components in a `_components/` or `_client/` directory when they are
+leaf-level interactivity nodes within a Server Component parent.
+
 **Rationale**: Modular code is easier to test, refactor, and reason about.
 Co-location reduces navigation overhead and keeps related concerns together.
+Consistent naming and component separation make the codebase predictable for
+all contributors.
 
 ### III. TypeScript Strictness
 
@@ -130,4 +141,4 @@ the simplicity principle.
 Use `AGENTS.md` for runtime development guidance and framework-specific
 conventions.
 
-**Version**: 1.0.0 | **Ratified**: 2026-06-05 | **Last Amended**: 2026-06-05
+**Version**: 1.0.1 | **Ratified**: 2026-06-05 | **Last Amended**: 2026-06-05
