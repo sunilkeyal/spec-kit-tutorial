@@ -24,9 +24,9 @@
 
 **Purpose**: Project initialization and dependency verification
 
-- [ ] T001 Verify project dependencies are installed (`npm install`) and dev server starts (`npm run dev`)
-- [ ] T002 [P] Verify existing `app/layout.tsx` root layout to understand current structure before refactoring
-- [ ] T003 [P] Verify existing `app/page.tsx` (current home page) content to plan migration
+- [X] T001 Verify project dependencies are installed (`npm install`) and dev server starts (`npm run dev`)
+- [X] T002 [P] Verify existing `app/layout.tsx` root layout to understand current structure before refactoring
+- [X] T003 [P] Verify existing `app/page.tsx` (current home page) content to plan migration
 
 ---
 
@@ -36,10 +36,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create TypeScript interfaces in `lib/types.ts` (Expense, ExpenseSummary, CategoryBreakdown)
-- [ ] T005 Implement localStorage CRUD helpers in `lib/storage.ts` (getAll, add, update, delete expense)
-- [ ] T006 [P] Create horizontal navigation bar component in `app/_components/nav-bar.tsx` (Dashboard and Expense links with active state)
-- [ ] T007 Update root layout in `app/layout.tsx` to include the nav-bar component
+- [X] T004 Create TypeScript interfaces in `lib/types.ts` (Expense, ExpenseSummary, CategoryBreakdown, Category constants)
+- [X] T005 Implement localStorage CRUD helpers in `lib/storage.ts` (getAll, create, update, deleteExpense, computeSummary)
+- [X] T006 [P] Create horizontal navigation bar component in `app/_components/nav-bar.tsx` (Dashboard and Expense links with active state highlighting via `usePathname()`)
+- [X] T007 Update root layout in `app/layout.tsx` to include the nav-bar component and main content wrapper
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
 
@@ -49,15 +49,15 @@
 
 **Goal**: User can add a new expense via a modal/overlay in the expense list view
 
-**Independent Test**: Navigate to the expense list, click Add Expense, fill in the form, submit, and verify the expense appears in the list and dashboard totals update.
+**Independent Test**: Navigate to the expense list, click Add Expense, fill in the form, submit, and verify the expense appears in the expense list and dashboard totals update.
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Create shared expense modal component in `app/_components/expense-modal.tsx` (form fields: amount, date, category, description)
-- [ ] T009 [P] [US1] Add validation logic for expense form (positive amount, required date, required category, description max 500 chars)
-- [ ] T010 [US1] Create expense list page skeleton at `app/expenses/page.tsx` with Add Expense button that opens the modal
-- [ ] T011 [US1] Wire modal submit to `lib/storage.ts` add function and refresh the expense list on success
-- [ ] T012 [US1] Handle localStorage full error with user-friendly message
+- [X] T008 [P] [US1] Create shared expense modal component in `app/_components/expense-modal.tsx` (form fields: amount, date, category, description; dark overlay; close on submit/cancel)
+- [X] T009 [P] [US1] Add validation logic for expense form (positive amount, required date, required category, description max 500 chars)
+- [X] T010 [US1] Create expense list page skeleton at `app/expenses/page.tsx` with Add Expense button that opens the modal
+- [X] T011 [US1] Wire modal submit to `lib/storage.ts` create function and refresh the expense list on success
+- [X] T012 [US1] Handle localStorage full error with user-friendly message in the modal
 
 **Checkpoint**: User can add expenses and they persist across page refresh
 
@@ -65,17 +65,20 @@
 
 ## Phase 4: User Story 2 - View and Filter Expenses (Priority: P1)
 
-**Goal**: User can view all expenses sorted by date descending in the expense list
+**Goal**: User can view all expenses in a data table with sortable columns and paginated results
 
-**Independent Test**: Click Expense in the horizontal nav bar, verify all expenses are displayed sorted by date with amount, date, category, and description. Empty state shown when no expenses exist.
+**Independent Test**: Click Expense in the horizontal nav bar, verify all expenses are displayed in a table with alternating row colors, column headers are clickable to toggle sort, page size selector works, and empty state shown when no expenses exist.
 
 ### Implementation for User Story 2
 
-- [ ] T013 [P] [US2] Create expense list component in `app/_components/expense-list.tsx` that renders sorted expenses
-- [ ] T014 [US2] Wire expense list page at `app/expenses/page.tsx` to load expenses from storage and render the list
-- [ ] T015 [US2] Implement empty state message when no expenses exist
+- [X] T013 [P] [US2] Create expense list data table component in `app/_components/expense-list.tsx` with table header, alternating row colors, and sortable columns (Amount, Date, Category, Description)
+- [X] T014 [P] [US2] Implement column sorting in `app/_components/expense-list.tsx` — clicking a column header toggles ascending/descending with visual indicator (▲/▼)
+- [X] T015 [P] [US2] Implement pagination in `app/_components/expense-list.tsx` with page size options (10, 20, 50) and first/prev/next/last navigation
+- [X] T016 [US2] Wire expense list page at `app/expenses/page.tsx` to load expenses from storage and render the data table
+- [X] T017 [US2] Implement empty state message when no expenses exist (with link to add first expense)
+- [X] T018 [US2] Create expense table row component in `app/_components/expense-item.tsx` with amount, date, category badge, description, and action buttons
 
-**Checkpoint**: User can navigate to expense list and see all expenses with correct sorting
+**Checkpoint**: User can navigate to expense list and see all expenses in a sortable, paginated data table
 
 ---
 
@@ -87,9 +90,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T016 [P] [US3] Add edit button to each expense row in `app/_components/expense-list.tsx`
-- [ ] T017 [US3] Add edit mode to `app/_components/expense-modal.tsx` that pre-populates fields with existing expense data
-- [ ] T018 [US3] Wire edit submit to `lib/storage.ts` update function and refresh list on success
+- [X] T019 [P] [US3] Add edit button to each expense row in `app/_components/expense-item.tsx` that triggers the modal with the selected expense
+- [X] T020 [US3] Add edit mode to `app/_components/expense-modal.tsx` that pre-populates fields with existing expense data (uses `expense` prop)
+- [X] T021 [US3] Wire edit submit to `lib/storage.ts` update function and refresh list on success
 
 **Checkpoint**: User can edit expenses and changes persist
 
@@ -99,14 +102,14 @@
 
 **Goal**: User can delete an expense with a confirmation step
 
-**Independent Test**: Add an expense, click delete, confirm deletion, verify the expense is removed from the list and dashboard totals update.
+**Independent Test**: Add an expense, click delete, confirm deletion, verify the expense is removed from the list and dashboard totals update. Cancel should not remove.
 
 ### Implementation for User Story 4
 
-- [ ] T019 [P] [US4] Add delete button to each expense row in `app/_components/expense-list.tsx`
-- [ ] T020 [US4] Implement confirmation dialog for delete (use browser confirm or inline modal)
-- [ ] T021 [US4] Wire delete confirm to `lib/storage.ts` delete function and refresh list on success
-- [ ] T022 [US4] Cancel delete should not remove the expense
+- [X] T022 [P] [US4] Add delete button to each expense row in `app/_components/expense-item.tsx`
+- [X] T023 [US4] Implement confirmation dialog for delete (inline modal overlay with Delete/Cancel buttons)
+- [X] T024 [US4] Wire delete confirm to `lib/storage.ts` deleteExpense function and refresh list on success
+- [X] T025 [US4] Cancel delete should not remove the expense (setShowConfirm(false) without deleting)
 
 **Checkpoint**: User can delete expenses with confirmation
 
@@ -120,9 +123,9 @@
 
 ### Implementation for User Story 5
 
-- [ ] T023 [US5] Add computeSummary function to `lib/storage.ts` (total count, total amount, recent 5-10, category breakdown with percentages)
-- [ ] T024 [US5] Update `app/page.tsx` to display dashboard content (totals, recent expenses, category breakdown)
-- [ ] T025 [US5] Style dashboard page to match the app's visual design
+- [X] T026 [US5] Add computeSummary function to `lib/storage.ts` (total count, total amount, recent 10 expenses, category breakdown with percentages)
+- [X] T027 [US5] Update `app/page.tsx` to display dashboard content (totals cards, recent expenses list, category breakdown with percentages, empty state with link to expenses page)
+- [X] T028 [US5] Style dashboard page to match the app's visual design (Tailwind cards, grid layout)
 
 **Checkpoint**: Dashboard page shows accurate summary data
 
@@ -132,10 +135,10 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T026 [P] Verify active link highlighting in `app/_components/nav-bar.tsx` works for both Dashboard and Expense routes
-- [ ] T027 [P] Run `npm run build` and `npm run lint` — fix any errors
-- [ ] T028 Run quickstart.md validation scenarios end-to-end
-- [ ] T029 Code cleanup and final commit
+- [X] T029 [P] Verify active link highlighting in `app/_components/nav-bar.tsx` works for both Dashboard and Expense routes
+- [X] T030 [P] Run `npm run build` and `npm run lint` — fix any errors
+- [ ] T031 Run quickstart.md validation scenarios end-to-end
+- [ ] T032 Code cleanup and final commit
 
 ---
 
@@ -182,7 +185,20 @@ Task: "Add validation logic for expense form"
 
 # Then wire them together:
 Task: "Create expense list page skeleton at app/expenses/page.tsx with Add Expense button"
-Task: "Wire modal submit to lib/storage.ts add function"
+Task: "Wire modal submit to lib/storage.ts create function"
+```
+
+## Parallel Example: User Story 2
+
+```bash
+# Launch table infrastructure together:
+Task: "Create expense list data table component in app/_components/expense-list.tsx"
+Task: "Implement column sorting in app/_components/expense-list.tsx"
+Task: "Implement pagination in app/_components/expense-list.tsx"
+
+# Then wire together:
+Task: "Wire expense list page at app/expenses/page.tsx"
+Task: "Create expense table row component in app/_components/expense-item.tsx"
 ```
 
 ---
@@ -194,14 +210,14 @@ Task: "Wire modal submit to lib/storage.ts add function"
 1. Complete Phase 1: Setup
 2. Complete Phase 2: Foundational
 3. Complete Phase 3: User Story 1 (Add Expense)
-4. Complete Phase 4: User Story 2 (View Expenses)
+4. Complete Phase 4: User Story 2 (View Expenses) — includes data table, sorting, pagination
 5. **STOP and VALIDATE**: User can add and view expenses end-to-end
 6. Deploy/demo if ready
 
 ### Incremental Delivery
 
 1. Complete Setup + Foundational → Foundation ready
-2. Add US1 + US2 → Add and view expenses → Deploy/Demo (MVP!)
+2. Add US1 + US2 → Add and view expenses in data table → Deploy/Demo (MVP!)
 3. Add US3 → Edit expenses → Deploy/Demo
 4. Add US4 → Delete expenses → Deploy/Demo
 5. Add US5 → Dashboard page → Deploy/Demo

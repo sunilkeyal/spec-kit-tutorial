@@ -141,3 +141,52 @@ export function getSummary(): ExpenseSummary {
 
   return { totalCount, totalAmount, categoryBreakdown };
 }
+
+import type {
+  Expense as NewExpense,
+  ExpenseSummary as NewExpenseSummary,
+  CategoryBreakdown as NewCategoryBreakdown,
+} from "./types";
+
+export function computeSummary(): NewExpenseSummary {
+  const expenses = readExpenses();
+  const totalCount = expenses.length;
+  const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
+
+  const sorted = [...expenses].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const recentExpenses = sorted.slice(0, 10);
+
+  const catTotals = new Map<string, number>();
+  for (const expense of expenses) {
+    catTotals.set(
+      expense.category,
+      (catTotals.get(expense.category) ?? 0) + expense.amount
+    );
+  }
+
+  const categoryBreakdown: NewCategoryBreakdown[] = Array.from(
+    catTotals.entries()
+  )
+    .map(([category, catAmount]) => ({
+      category: category as NewExpense["category"],
+      totalAmount: catAmount,
+      percentage:
+        totalAmount > 0 ? Math.round((catAmount / totalAmount) * 100) : 0,
+    }))
+    .sort((a, b) => b.totalAmount - a.totalAmount);
+
+  return {
+    totalCount,
+    totalAmount,
+    recentExpenses: recentExpenses.map((e) => ({
+      id: e.id,
+      amount: e.amount,
+      date: e.date,
+      category: e.category as NewExpense["category"],
+      description: e.description,
+    })),
+    categoryBreakdown,
+  };
+}

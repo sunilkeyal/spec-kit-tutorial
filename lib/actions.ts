@@ -1,7 +1,7 @@
 "use server";
 
 import { validateExpenseFormData } from "@/src/server/validation";
-import type { Expense, ValidationResult } from "@/src/server/types";
+import type { ValidationResult } from "@/src/server/types";
 
 export async function addExpense(
   prevState: ValidationResult,

@@ -22,7 +22,7 @@ The application layout is restructured as follows:
 
 - **Horizontal Navigation Bar**: Fixed at the top of every page. Contains the app title/logo and two navigation links: **Dashboard** and **Expense**. No vertical/side nav bar is used.
 - **Dashboard Page** (default route `/`): Displays dashboard items — total number of expenses, total amount spent, recent expenses list, and category breakdown.
-- **Expense List View**: Shown when the user clicks **Expense** in the horizontal nav bar. Displays all expenses sorted by date (most recent first). Includes an **Add Expense** button at the top.
+- **Expense List View**: Shown when the user clicks **Expense** in the horizontal nav bar. Displays all expenses in a data table with sortable columns (Amount, Date, Category, Description) and paginated results (10, 20, or 50 per page, default 10). Table rows alternate in color for readability. Includes an **Add Expense** button at the top.
 - **Add Expense Section**: Opens as a modal/overlay when the **Add Expense** button is clicked. Contains the expense entry form (amount, date, category, description). The background list darkens and the modal closes on submit or cancel.
 - **Edit/Delete**: Each expense row in the list has edit and delete controls directly available. Editing opens the same modal as Add Expense, pre-populated with the existing expense data.
 
@@ -46,16 +46,18 @@ The user records a new personal expense by clicking the **Add Expense** button i
 
 ### User Story 2 - View and Filter Expenses (Priority: P1)
 
-The user clicks **Expense** in the horizontal navigation bar to view a list of all recorded expenses sorted by date (most recent first). They can browse through expenses and see the amount, date, category, and description for each entry.
+The user clicks **Expense** in the horizontal navigation bar to view a list of all recorded expenses in a data table. The table has a header row and alternating row colors. Each column (Amount, Date, Category, Description) is sortable in ascending or descending order by clicking the column header. Results are paginated with configurable page sizes of 10, 20, or 50 (default 10).
 
 **Why this priority**: Viewing expenses is the primary way users interact with their data — this is the core read capability.
 
-**Independent Test**: Can be fully tested by clicking Expense in the horizontal nav bar and seeing the list of previously added expenses displayed in reverse chronological order with all relevant fields visible.
+**Independent Test**: Can be fully tested by clicking Expense in the horizontal nav bar and seeing the list of previously added expenses displayed in a data table with sortable columns, paginated results, and all relevant fields visible.
 
 **Acceptance Scenarios**:
 
-1. **Given** the user has recorded multiple expenses, **When** they click Expense in the horizontal nav bar, **Then** all expenses are displayed sorted by date (most recent first) with amount, date, category, and description
-2. **Given** the user has no recorded expenses, **When** they click Expense in the horizontal nav bar, **Then** a friendly empty-state message is shown indicating no expenses yet
+1. **Given** the user has recorded multiple expenses, **When** they click Expense in the horizontal nav bar, **Then** all expenses are displayed in a data table with alternating row colors, sortable columns, and paginated results
+2. **Given** the user clicks a column header, **When** they click it again, **Then** the sort direction toggles between ascending and descending
+3. **Given** the user changes the page size selector, **When** they select a different value, **Then** the table updates to show the selected number of rows per page
+4. **Given** the user has no recorded expenses, **When** they click Expense in the horizontal nav bar, **Then** a friendly empty-state message is shown indicating no expenses yet
 
 ---
 
@@ -121,7 +123,7 @@ The user visits the Dashboard page (default route `/`) and sees dashboard items:
 - **FR-002**: The amount field MUST accept positive numeric values only and MUST display a clear validation error for invalid input
 - **FR-003**: The date field MUST allow date selection via a date picker and MUST default to the current date
 - **FR-004**: The category field MUST provide a predefined set of categories (e.g., Food, Transportation, Entertainment, Utilities, Shopping, Other) and allow the user to select one
-- **FR-005**: Users MUST be able to view all expenses in a list sorted by date (most recent first), accessed by clicking **Expense** in the horizontal navigation bar
+- **FR-005**: Users MUST be able to view all expenses in a data table with alternating row colors, accessed by clicking **Expense** in the horizontal navigation bar
 - **FR-006**: Users MUST be able to delete an individual expense with a confirmation step from the expense list view
 - **FR-007**: The Dashboard page MUST display the total number of expenses and the total amount spent across all expenses (dashboard items)
 - **FR-008**: The Dashboard page MUST show a list of the most recent expenses (minimum 5)
@@ -131,6 +133,9 @@ The user visits the Dashboard page (default route `/`) and sees dashboard items:
 - **FR-012**: The application MUST have a horizontal navigation bar at the top of every page
 - **FR-013**: The horizontal navigation bar MUST have **Dashboard** and **Expense** as navigation links
 - **FR-014**: The Dashboard page (default route `/`) MUST display the dashboard items — totals, recent expenses, and category breakdown
+- **FR-015**: The expense data table MUST have a header row and alternating row colors
+- **FR-016**: Each column in the expense table (Amount, Date, Category, Description) MUST be sortable in ascending and descending order by clicking the column header
+- **FR-017**: The expense table MUST support pagination with page size options of 10, 20, and 50, defaulting to 10 rows per page
 
 ### Key Entities *(include if feature involves data)*
 
