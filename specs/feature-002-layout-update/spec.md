@@ -8,27 +8,33 @@
 
 **Input**: User description: "Modify the layout of the recently merged UI feature to use horizontal nav bar at the top of the page and the dashboard items should be displayed in the home page. The vertical nav bar will have Expense as a navigation item which when clicked will display a list of expenses and there will be a add expense button which will open the add expense section."
 
+## Clarifications
+
+### Session 2026-06-06
+
+- Q: How should the "Add Expense" section be presented? → A: Modal/overlay — opens as a centered dialog on top of the expense list, darkens the background, and closes on submit or cancel.
+- Q: What should the horizontal nav bar links be, and is a vertical nav bar needed? → A: Horizontal nav bar links are **Dashboard** and **Expense**. No vertical/side nav bar is needed — the horizontal nav bar is sufficient for all navigation.
+- Q: How should the edit expense form be presented? → A: Reuse the same modal as Add Expense — the modal is populated with existing data when editing (same component, different mode).
+
 ## User Interface
 
 The application layout is restructured as follows:
 
-- **Horizontal Navigation Bar**: Fixed at the top of every page. Contains the app title/logo and primary navigation links (Home, Dashboard summary link).
-- **Vertical Navigation Bar** (sidebar): Positioned on the left side below the horizontal bar. Contains secondary navigation items:
-  - **Expense** — clicking this navigates to the expense list view.
-- **Home Page** (default route `/`): Displays dashboard items — total number of expenses, total amount spent, recent expenses list, and category breakdown.
-- **Expense List View**: Shown when the user clicks **Expense** in the vertical nav bar. Displays all expenses sorted by date (most recent first). Includes an **Add Expense** button at the top.
-- **Add Expense Section**: Opens inline or as a modal/panel when the **Add Expense** button is clicked. Contains the expense entry form (amount, date, category, description).
-- **Edit/Delete**: Each expense row in the list has edit and delete controls directly available.
+- **Horizontal Navigation Bar**: Fixed at the top of every page. Contains the app title/logo and two navigation links: **Dashboard** and **Expense**. No vertical/side nav bar is used.
+- **Dashboard Page** (default route `/`): Displays dashboard items — total number of expenses, total amount spent, recent expenses list, and category breakdown.
+- **Expense List View**: Shown when the user clicks **Expense** in the horizontal nav bar. Displays all expenses sorted by date (most recent first). Includes an **Add Expense** button at the top.
+- **Add Expense Section**: Opens as a modal/overlay when the **Add Expense** button is clicked. Contains the expense entry form (amount, date, category, description). The background list darkens and the modal closes on submit or cancel.
+- **Edit/Delete**: Each expense row in the list has edit and delete controls directly available. Editing opens the same modal as Add Expense, pre-populated with the existing expense data.
 
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Add a New Expense (Priority: P1)
 
-The user records a new personal expense by clicking the **Add Expense** button in the expense list view, filling out the amount, date, category, and an optional description. Once submitted, the expense appears in the expense list and is reflected in the dashboard totals on the home page.
+The user records a new personal expense by clicking the **Add Expense** button in the expense list view, filling out the amount, date, category, and an optional description. Once submitted, the expense appears in the expense list and is reflected in the dashboard totals on the Dashboard page.
 
 **Why this priority**: Recording expenses is the foundational action — without it, there is nothing to view, delete, or summarize.
 
-**Independent Test**: Can be fully tested by navigating to the expense list via the vertical nav bar, clicking Add Expense, filling in the form, and submitting. The newly added expense should immediately appear in the expense list and affect dashboard totals on the home page.
+**Independent Test**: Can be fully tested by navigating to the expense list via the horizontal nav bar, clicking Add Expense, filling in the form, and submitting. The newly added expense should immediately appear in the expense list and affect dashboard totals on the Dashboard page.
 
 **Acceptance Scenarios**:
 
@@ -40,22 +46,22 @@ The user records a new personal expense by clicking the **Add Expense** button i
 
 ### User Story 2 - View and Filter Expenses (Priority: P1)
 
-The user clicks **Expense** in the vertical navigation bar to view a list of all recorded expenses sorted by date (most recent first). They can browse through expenses and see the amount, date, category, and description for each entry.
+The user clicks **Expense** in the horizontal navigation bar to view a list of all recorded expenses sorted by date (most recent first). They can browse through expenses and see the amount, date, category, and description for each entry.
 
 **Why this priority**: Viewing expenses is the primary way users interact with their data — this is the core read capability.
 
-**Independent Test**: Can be fully tested by clicking Expense in the vertical nav bar and seeing the list of previously added expenses displayed in reverse chronological order with all relevant fields visible.
+**Independent Test**: Can be fully tested by clicking Expense in the horizontal nav bar and seeing the list of previously added expenses displayed in reverse chronological order with all relevant fields visible.
 
 **Acceptance Scenarios**:
 
-1. **Given** the user has recorded multiple expenses, **When** they click Expense in the vertical nav bar, **Then** all expenses are displayed sorted by date (most recent first) with amount, date, category, and description
-2. **Given** the user has no recorded expenses, **When** they click Expense in the vertical nav bar, **Then** a friendly empty-state message is shown indicating no expenses yet
+1. **Given** the user has recorded multiple expenses, **When** they click Expense in the horizontal nav bar, **Then** all expenses are displayed sorted by date (most recent first) with amount, date, category, and description
+2. **Given** the user has no recorded expenses, **When** they click Expense in the horizontal nav bar, **Then** a friendly empty-state message is shown indicating no expenses yet
 
 ---
 
 ### User Story 3 - Edit an Expense (Priority: P1)
 
-The user modifies an existing expense in the expense list view to correct or update any of its fields (amount, date, category, description). After saving, the changes are reflected immediately in both the expense list and the dashboard totals on the home page.
+The user modifies an existing expense in the expense list view to correct or update any of its fields (amount, date, category, description). After saving, the changes are reflected immediately in both the expense list and the dashboard totals on the Dashboard page.
 
 **Why this priority**: Without editing, users must delete and re-add to fix mistakes, which is poor UX. Edit completes the CRUD lifecycle and is essential for daily use.
 
@@ -71,7 +77,7 @@ The user modifies an existing expense in the expense list view to correct or upd
 
 ### User Story 4 - Delete an Expense (Priority: P2)
 
-The user removes an expense from the expense list view. After deletion, the expense is permanently removed from the list and the dashboard totals on the home page are updated accordingly.
+The user removes an expense from the expense list view. After deletion, the expense is permanently removed from the list and the dashboard totals on the Dashboard page are updated accordingly.
 
 **Why this priority**: Deletion corrects mistakes and keeps the record clean, but the app is functional without it (users can add and view).
 
@@ -84,19 +90,19 @@ The user removes an expense from the expense list view. After deletion, the expe
 
 ---
 
-### User Story 5 - View Dashboard on Home Page (Priority: P2)
+### User Story 5 - View Dashboard Page (Priority: P2)
 
-The user visits the home page (default route `/`) and sees dashboard items: total number of expenses, total amount spent, recent expenses (5-10 most recent), and a breakdown by category (text list with category name, total amount, and percentage).
+The user visits the Dashboard page (default route `/`) and sees dashboard items: total number of expenses, total amount spent, recent expenses (5-10 most recent), and a breakdown by category (text list with category name, total amount, and percentage).
 
 **Why this priority**: The dashboard provides value-added insight, but the app is still useful for basic recording and viewing without it.
 
-**Independent Test**: Can be fully tested by adding several expenses with different categories and amounts, navigating to the home page, and verifying the dashboard shows the correct total count, total sum, and a list of recent expenses.
+**Independent Test**: Can be fully tested by adding several expenses with different categories and amounts, navigating to the Dashboard page, and verifying the dashboard shows the correct total count, total sum, and a list of recent expenses.
 
 **Acceptance Scenarios**:
 
-1. **Given** the user has added multiple expenses, **When** they view the home page, **Then** they see the total number of expenses and the total amount spent
-2. **Given** the user has expenses in multiple categories, **When** they view the home page, **Then** they see a breakdown by category (text list with category name, total amount, and percentage)
-3. **Given** the user opens the app, **When** the home page loads, **Then** the 5-10 most recent expenses are displayed
+1. **Given** the user has added multiple expenses, **When** they view the Dashboard page, **Then** they see the total number of expenses and the total amount spent
+2. **Given** the user has expenses in multiple categories, **When** they view the Dashboard page, **Then** they see a breakdown by category (text list with category name, total amount, and percentage)
+3. **Given** the user opens the app, **When** the Dashboard page loads, **Then** the 5-10 most recent expenses are displayed
 
 ---
 
@@ -115,16 +121,16 @@ The user visits the home page (default route `/`) and sees dashboard items: tota
 - **FR-002**: The amount field MUST accept positive numeric values only and MUST display a clear validation error for invalid input
 - **FR-003**: The date field MUST allow date selection via a date picker and MUST default to the current date
 - **FR-004**: The category field MUST provide a predefined set of categories (e.g., Food, Transportation, Entertainment, Utilities, Shopping, Other) and allow the user to select one
-- **FR-005**: Users MUST be able to view all expenses in a list sorted by date (most recent first), accessed by clicking Expense in the vertical navigation bar
+- **FR-005**: Users MUST be able to view all expenses in a list sorted by date (most recent first), accessed by clicking **Expense** in the horizontal navigation bar
 - **FR-006**: Users MUST be able to delete an individual expense with a confirmation step from the expense list view
-- **FR-007**: The home page MUST display the total number of expenses and the total amount spent across all expenses (dashboard items)
-- **FR-008**: The home page MUST show a list of the most recent expenses (minimum 5)
+- **FR-007**: The Dashboard page MUST display the total number of expenses and the total amount spent across all expenses (dashboard items)
+- **FR-008**: The Dashboard page MUST show a list of the most recent expenses (minimum 5)
 - **FR-009**: All expense data MUST persist across browser sessions (data is saved locally)
 - **FR-010**: The system MUST show an empty-state message when no expenses exist
 - **FR-011**: Users MUST be able to edit the amount, date, category, and description of an existing expense, with the same validation rules as adding
 - **FR-012**: The application MUST have a horizontal navigation bar at the top of every page
-- **FR-013**: The application MUST have a vertical navigation bar (sidebar) with an Expense navigation item
-- **FR-014**: The home page (default route `/`) MUST display the dashboard items — totals, recent expenses, and category breakdown
+- **FR-013**: The horizontal navigation bar MUST have **Dashboard** and **Expense** as navigation links
+- **FR-014**: The Dashboard page (default route `/`) MUST display the dashboard items — totals, recent expenses, and category breakdown
 
 ### Key Entities *(include if feature involves data)*
 
@@ -137,7 +143,7 @@ The user visits the home page (default route `/`) and sees dashboard items: tota
 
 - **SC-001**: A user can add a new expense and see it appear in the list within 2 seconds of submission
 - **SC-002**: A user can complete the full record→view→delete workflow in under 30 seconds on their first attempt
-- **SC-003**: The home page loads and displays correct dashboard totals immediately upon opening the app
+- **SC-003**: The Dashboard page loads and displays correct dashboard totals immediately upon opening the app
 - **SC-004**: 100% of expenses added by the user remain visible after a page refresh
 - **SC-005**: The app is usable with zero learning curve — a first-time user can successfully add an expense without external instructions
 
